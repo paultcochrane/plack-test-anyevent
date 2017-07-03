@@ -8,5 +8,8 @@ perl:
   - "5.18"
   - "5.20"
   - "5.22"
-install: cpanm --quiet --notests AnyEvent autodie Plack HTTP::Request::Common Test::Class Test::More parent
-script: prove -l
+install:
+    - dzil authordeps --missing | cpanm --no-skip-satisfied --notest || { cat ~/.cpanm/build.log ; false ; }
+    - dzil listdeps --author --missing | cpanm --no-skip-satisfied --notest || { cat ~/.cpanm/build.log ; false ; }
+script:
+    - dzil test --author --release
